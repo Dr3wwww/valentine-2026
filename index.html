@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Will You Be My Valentine? 💝</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <div id="heart-bg"></div>
+
+    <div class="valentine-box">
+        <div id="questionSection">
+            <h1>Reine, will you be my Valentine on February 14th, 2026?🌹</h1>
+            <div class="image-container">
+                <img src="cuteCat.jpg" alt="Cute Valentine Cat" class="main-img">
+            </div>
+            <div class="button-group">
+                <button class="btn yes-btn" onclick="celebrate()">Yes</button>
+                <button class="btn no-btn" id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="celebration" style="display: none;">
+            <h1>Yay!!!! ❤️</h1>
+            <div class="image-container">
+                <img src="inlove.jpg" alt="In Love" class="main-img">
+            </div>
+            <h2>YES!! I'm coming to you now with something, hehe!</h2>
+        </div>
+    </div>
+
+    <script>
+        // 1. Confetti Logic
+        function celebrate() {
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+
+            const duration = 3 * 1000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff4d6d', '#ffffff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff4d6d', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // 2. Mobile-Optimized Runaway Button
+        const noBtn = document.getElementById('noBtn');
+        const moveButton = (e) => {
+            if (e.type === 'touchstart') e.preventDefault();
+            
+         
+            const padding = 20;
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${Math.max(padding, x)}px`;
+            noBtn.style.top = `${Math.max(padding, y)}px`;
+        };
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', moveButton);
+
+        // 3. Simple Heart Rain Background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.getElementById('heart-bg').appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
