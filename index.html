@@ -33,11 +33,25 @@
     </div>
 
     <script>
-        // 1. Confetti Logic
         function celebrate() {
+            // 1. Notify via Formspree
+            fetch("https://formspree.io/f/mvzzkvqa", {
+                method: "POST",
+                body: JSON.stringify({ 
+                    message: "Reine said YES! ❤️",
+                    timestamp: new Date().toLocaleString()
+                }),
+                headers: { 
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json' 
+                }
+            });
+
+            // 2. Switch UI
             document.getElementById('questionSection').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
 
+            // 3. Confetti Rain
             const duration = 3 * 1000;
             const end = Date.now() + duration;
 
@@ -63,12 +77,10 @@
             }());
         }
 
-        // 2. Mobile-Optimized Runaway Button
+        // Runaway Button Logic
         const noBtn = document.getElementById('noBtn');
         const moveButton = (e) => {
             if (e.type === 'touchstart') e.preventDefault();
-            
-         
             const padding = 20;
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - padding);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - padding);
@@ -81,7 +93,7 @@
         noBtn.addEventListener('mouseover', moveButton);
         noBtn.addEventListener('touchstart', moveButton);
 
-        // 3. Simple Heart Rain Background
+        // Falling Hearts logic
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
